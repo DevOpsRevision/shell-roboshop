@@ -1,7 +1,7 @@
-AMI_ID=
-SG_ID=
-ZONE_ID=
-DOMAIN_NAME=
+AMI_ID=ami-0220d79f3f480ecf5
+SG_ID=sg-0c05c24867a0de439
+ZONE_ID=Z09260871ALCRUTIR75TM
+DOMAIN_NAME=easydevops.fun
 INSTANCES=("frontend" "catalogue" "cart" "payment" "shipping" "user" "dispatch" "rabbitmq" "mongodb" "mysql" "redis")
 
 for instance in ${INSTANCES[@]}
