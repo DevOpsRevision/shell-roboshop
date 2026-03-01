@@ -9,7 +9,7 @@ do
   echo "Creating $instance instance..."
   INSTANCE_ID=$(aws ec2 run-instances --image-id $AMI_ID --instance-type t2.micro --security-group-ids $SG_ID --tag-specifications "ResourceType=instance, Tags=[{Key=Name, Value=test}]" --query "Instances[0].InstanceId" --output text)
 
-  if [ $instance -ne "frontend" ]
+  if [ $instance != "frontend" ]
     then
        IP_ADDRESS=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
        echo "IP address of $instance instance: $IP_ADDRESS"
