@@ -1,7 +1,7 @@
 #!/bin/bash
 AMI_ID=ami-0220d79f3f480ecf5
 SG_ID=sg-0c05c24867a0de439
-# ZONE_ID=Z09260871ALCRUTIR75TM  # Unused?
+ZONE_ID=Z09260871ALCRUTIR75TM  
 DOMAIN_NAME=easydevops.fun
 INSTANCES=("frontend" "catalogue" "cart" "payment" "shipping" "user" "dispatch" "rabbitmq" "mongodb" "mysql" "redis")
 
@@ -23,11 +23,32 @@ for instance in "${INSTANCES[@]}"; do
       --query "Reservations[0].Instances[0].PrivateIpAddress" \
       --output text)
     echo "Private IP of $instance: $IP_ADDRESS"
+    RECORD_NAME="$instance.$DOMAIN_NAME"
   else
     IP_ADDRESS=$(aws ec2 describe-instances \
       --instance-ids "$INSTANCE_ID" \
       --query "Reservations[0].Instances[0].PublicIpAddress" \
       --output text)
     echo "Public IP of frontend: $IP_ADDRESS"
+    RECORD_NAME="$DOMAIN_NAME"
   fi
+
+aws route53 change-resource-record-sets --hosted-zone-id "$ZONE_ID" --change-batch "{
+  \"Changes\": [
+    {
+      \"Action\": \"UPSERT\",
+      \"ResourceRecordSet\": {
+        \"Name\": \"$RECORD_NAME\",
+        \"Type\": \"A\",
+        \"TTL\": 1,
+        \"ResourceRecords\": [
+          {
+            \"Value\": \"$IP_ADDRESS\"
+          }
+        ]
+      }
+    }
+  ]
+}"
+
 done
