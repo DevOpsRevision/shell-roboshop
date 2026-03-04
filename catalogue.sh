@@ -39,8 +39,13 @@ VALIDATE $? "Enabling NodeJS Module"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "Installing NodeJS"
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
-VALIDATE $? "Adding Application User"
+id roboshop &>>$LOG_FILE
+if [ $? -ne 0 ]; then
+  useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
+  VALIDATE $? "Adding Application User"
+else
+  echo -e "$G INFO :: User 'roboshop' already exists. Skipping user creation. $N" | tee -a $LOG_FILE
+fi
 
 mkdir -p /app &>>$LOG_FILE
 VALIDATE $? "Creating Application Directory"
@@ -50,6 +55,9 @@ VALIDATE $? "Downloading Application Code"
 
 cd /app &>>$LOG_FILE
 VALIDATE $? "Changing Directory"
+
+rm -rf /app/* &>>$LOG_FILE
+VALIDATE $? "Cleaning Application Directory"
 
 unzip /tmp/catalogue.zip &>>$LOG_FILE
 VALIDATE $? "Extracting Application Code"
