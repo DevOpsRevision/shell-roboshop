@@ -83,9 +83,16 @@ VALIDATE $? "Copying MongoDB Repository File"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Installing MongoDB Client"
 
-mongosh --host mongodb.easydevops.fun </app/db/master-data.js &>>$LOG_FILE
-VALIDATE $? "Loading Initial Data"
 
-mongosh --host mongodb.easydevops.fun --quiet --eval "db.getSiblingDB('catalogue').getCollection('products').find().count()" &>>$LOG_FILE
-VALIDATE $? "Validating Initial Data Load"
+STATUS=$(mongosh --host mongodb.easydevops.fun --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+
+if [ $STATUS -lt 0 ]
+then
+    mongosh --host mongodb.easydevops.fun </app/db/master-data.js &>>$LOG_FILE
+    VALIDATE $? "Loading data into MongoDB"
+else
+  echo -e "$G INFO :: Data already exists in MongoDB. Skipping data load. $N" | tee -a $LOG_FILE
+fi
+
+
 
