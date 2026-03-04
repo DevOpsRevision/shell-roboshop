@@ -17,6 +17,8 @@ else
   echo -e "$G INFO :: You are root user. Proceeding with the script execution. $N" | tee -a $LOG_FILE
 fi
 
+mkdir -p "$LOGS_FOLDER"
+
 VALIDATE(){
   if [ $1 -ne 0 ]; then
     echo -e "$R ERROR :: $2 installation .... $R FAILURE $N" | tee -a $LOG_FILE
