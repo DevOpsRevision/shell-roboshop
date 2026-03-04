@@ -86,6 +86,6 @@ VALIDATE $? "Installing MongoDB Client"
 mongosh --host mongodb.easydevops.fun </app/db/master-data.js &>>$LOG_FILE
 VALIDATE $? "Loading Initial Data"
 
-
-
+mongosh --host mongodb.easydevops.fun --quiet --eval "db.getSiblingDB('catalogue').getCollection('products').find().count()" &>>$LOG_FILE
+VALIDATE $? "Validating Initial Data Load"
 
