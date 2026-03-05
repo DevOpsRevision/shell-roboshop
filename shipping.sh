@@ -53,7 +53,7 @@ VALIDATE $? "Changing Directory"
 rm -rf /app/* &>>$LOG_FILE
 VALIDATE $? "Cleaning Application Directory"
 
-unzip /tmp/cart.zip &>>$LOG_FILE
+unzip /tmp/shipping.zip &>>$LOG_FILE
 VALIDATE $? "Extracting Application Code"
 
 mvn clean package &>>$LOG_FILE
