@@ -41,3 +41,7 @@ VALIDATE $? "Starting MySQL Service"
 
 mysql_secure_installation --set-root-pass RoboShop@1 &>>$LOG_FILE
 VALIDATE $? "Securing MySQL Installation"
+
+END_TIME=$(date +%s)
+ELAPSED_TIME=$(( $END_TIME - $START_TIME ))
+echo -e "$G INFO :: Frontend setup completed in $ELAPSED_TIME seconds. $N" | tee -a $LOG_FILE
