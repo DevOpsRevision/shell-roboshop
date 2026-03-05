@@ -33,6 +33,7 @@ for instance in "${INSTANCES[@]}"; do
     RECORD_NAME="$DOMAIN_NAME"
   fi
 
+# Update Route 53 DNS record
 aws route53 change-resource-record-sets --hosted-zone-id "$ZONE_ID" --change-batch "{
   \"Changes\": [
     {
