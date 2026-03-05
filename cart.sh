@@ -47,7 +47,7 @@ else
   echo -e "$G INFO :: User 'roboshop' already exists. Skipping user creation. $N" | tee -a $LOG_FILE
 fi
 
-curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>>$LOG_FILE
+curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>>$LOG_FILE
 VALIDATE $? "Downloading Application Code"
 
 mkdir -p /app &>>$LOG_FILE
@@ -59,23 +59,24 @@ VALIDATE $? "Changing Directory"
 rm -rf /app/* &>>$LOG_FILE
 VALIDATE $? "Cleaning Application Directory"
 
-unzip /tmp/user.zip &>>$LOG_FILE
+unzip /tmp/cart.zip &>>$LOG_FILE
 VALIDATE $? "Extracting Application Code"
 
 npm install &>>$LOG_FILE
 VALIDATE $? "Installing Application Dependencies"
 
-cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service &>>$LOG_FILE
+cp $SCRIPT_DIR/cart.service /etc/systemd/system/cart.service &>>$LOG_FILE
 VALIDATE $? "Copying SystemD Service File"
 
 systemctl daemon-reload &>>$LOG_FILE
 VALIDATE $? "Reloading SystemD"
 
-systemctl enable user &>>$LOG_FILE
-VALIDATE $? "Enabling User Service"
+systemctl enable cart &>>$LOG_FILE
+VALIDATE $? "Enabling Cart Service"
 
-systemctl start user &>>$LOG_FILE
-VALIDATE $? "Starting User Service"
+systemctl start cart &>>$LOG_FILE
+VALIDATE $? "Starting Cart Service"
+
 
 END_TIME=$(date +%s)
 ELAPSED_TIME=$(( $END_TIME - $START_TIME ))
