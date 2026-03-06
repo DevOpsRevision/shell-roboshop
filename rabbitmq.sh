@@ -47,3 +47,7 @@ VALIDATE $? "Adding RabbitMQ User"
 
 rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>$LOG_FILE
 VALIDATE $? "Setting RabbitMQ User Permissions"
+
+END_TIME=$(date +%s)
+ELAPSED_TIME=$(( $END_TIME - $START_TIME ))
+echo -e "$G INFO :: Frontend setup completed in $ELAPSED_TIME seconds. $N" | tee -a $LOG_FILE
