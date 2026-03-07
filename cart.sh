@@ -80,4 +80,4 @@ VALIDATE $? "Starting Cart Service"
 
 END_TIME=$(date +%s)
 ELAPSED_TIME=$(( $END_TIME - $START_TIME ))
-echo -e "$G INFO :: Frontend setup completed in $ELAPSED_TIME seconds. $N" | tee -a $LOG_FILE
+echo -e "$G INFO :: Cart setup completed in $ELAPSED_TIME seconds. $N" | tee -a $LOG_FILE

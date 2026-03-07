@@ -1,5 +1,6 @@
 #!/bin/bash
 
+START_TIME=$(date +%s)
 USERID=$(id -u)
 R="\e[31m"
 G="\e[32m"
@@ -44,3 +45,7 @@ VALIDATE $? "Updating MongoDB Configuration"
 
 systemctl restart mongod &>>$LOG_FILE
 VALIDATE $? "Restarting MongoDB"
+
+END_TIME=$(date +%s)
+ELAPSED_TIME=$(( $END_TIME - $START_TIME ))
+echo -e "$G INFO :: MongoDB setup completed in $ELAPSED_TIME seconds. $N" | tee -a $LOG_FILE

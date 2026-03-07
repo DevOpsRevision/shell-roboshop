@@ -1,5 +1,6 @@
 #!/bin/bash
 
+START_TIME=$(date +%s)
 USERID=$(id -u)
 R="\e[31m"
 G="\e[32m"
@@ -94,5 +95,8 @@ else
   echo -e "$G INFO :: Data already exists in MongoDB. Skipping data load. $N" | tee -a $LOG_FILE
 fi
 
+END_TIME=$(date +%s)
+ELAPSED_TIME=$(( $END_TIME - $START_TIME ))
+echo -e "$G INFO :: Catalogue setup completed in $ELAPSED_TIME seconds. $N" | tee -a $LOG_FILE
 
 
